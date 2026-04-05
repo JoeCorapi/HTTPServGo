@@ -20,6 +20,9 @@ type Request struct {
 func parseRequest(conn net.Conn) (*Request, error) {
 	reader := bufio.NewReader(conn)
 
+	// Requests come in 3 "Chunks"
+	// Request MetaData, Headers, Body
+
 	// --- Parse the request line ---
 	requestLine, err := reader.ReadString('\n')
 	if err != nil {
@@ -70,6 +73,7 @@ func parseRequest(conn net.Conn) (*Request, error) {
 			return nil, fmt.Errorf("invalid content-length: %w", err)
 		}
 
+		// Important: ReadFull handles the loop to read len(buf) into our buffer
 		body := make([]byte, length)
 		_, err = io.ReadFull(reader, body)
 		if err != nil {
