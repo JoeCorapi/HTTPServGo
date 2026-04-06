@@ -7,7 +7,6 @@ import (
 	"net"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Request struct {
@@ -126,7 +125,6 @@ func writeResponse(conn net.Conn, resp *Response) error {
 // --- Handlers ---
 
 func handleHello(req *Request) *Response {
-	time.Sleep(2 * time.Second)
 	return &Response{
 		StatusCode: 200,
 		StatusText: "OK",
